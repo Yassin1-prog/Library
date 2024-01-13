@@ -16,3 +16,17 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+
+.green {
+    background-color: green;
+    color: white;
+}
+.red {
+    background-color: red;
+    color: white;
+}
+
+.grey {
+    background-color: gray;
+    color: wheat;
+}
