@@ -14,25 +14,47 @@ function Book(title, author, pages, read) {
 function addBookToLibrary(Book) {
     myLibrary.push(Book);
 }
+/*
+function deleteRow(index) {
+    let tableBody = document.getElementById("booksTable").getElementsByTagName('tbody')[0];
+
+    // Remove the row at the specified index
+    tableBody.deleteRow(index);
+}
+*/
 
 function display(myLibrary) {
     let tableBody = document.getElementById("booksTable").getElementsByTagName('tbody')[0];
 
             // Clear existing table content
             tableBody.innerHTML = "";
+            let length = myLibrary.length;
 
             // Loop through the array and add rows to the table
-            myLibrary.forEach(book => {
+            myLibrary.forEach((book,index) => {
                 let row = tableBody.insertRow();
                 let cellTitle = row.insertCell(0);
                 let cellAuthor = row.insertCell(1);
                 let cellPages = row.insertCell(2);
                 let cellRead = row.insertCell(3);
+                let cellButton = row.insertCell(4);
+
+                const btn = document.createElement('button');
+                btn.textContent = 'Remove';
+                btn.setAttribute("data-index", index);
 
                 cellTitle.textContent = book.title;
                 cellAuthor.textContent = book.author;
                 cellPages.textContent = book.pages;
                 cellRead.textContent = book.read;
+
+                btn.onclick = function() {
+                    let rowIndex = parseInt(btn.getAttribute("data-index"));
+                    myLibrary.splice(rowIndex, 1);
+                    tableBody.deleteRow(rowIndex);
+                    tableBody.insertRow(rowIndex);
+                }
+                cellButton.appendChild(btn);
             });
 }
 
