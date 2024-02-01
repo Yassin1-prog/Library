@@ -1,32 +1,57 @@
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 table {
-    border-collapse: collapse;
-    width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
-th, td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }
 
 th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .green {
-    background-color: green;
-    color: white;
+  background-color: green;
+  color: white;
 }
 .red {
-    background-color: red;
-    color: white;
+  background-color: red;
+  color: white;
 }
 
 .grey {
-    background-color: gray;
-    color: wheat;
+  background-color: gray;
+  color: wheat;
+}
+
+input:invalid {
+  border: 2px dashed red;
+}
+
+input:valid {
+  border: 2px solid green;
+}
+
+.error {
+  width: 100%;
+  padding: 0;
+
+  font-size: 80%;
+  color: white;
+  background-color: #900;
+  border-radius: 0 0 5px 5px;
+
+  box-sizing: border-box;
+}
+
+.error.active {
+  padding: 0.3em;
 }

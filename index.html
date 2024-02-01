@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="./styles.css">
+  <head>
+    <link rel="stylesheet" href="./styles.css" />
     <script defer src="./script.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Library</h1>
 
     <table id="booksTable">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Pages</th>
-                <th>Read</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Table content will be dynamically added here -->
-        </tbody>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Read</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table content will be dynamically added here -->
+      </tbody>
     </table>
     <button class="open">ADD A NEW BOOK</button>
     <dialog data-modal>
-        <form>
-            <input title type="text" name="title" placeholder="Title">
-            <input author type="text" name="author" placeholder="Author">
-            <input number type="number" name="pages" placeholder="Number of pages">
-            <label for="myCheckbox">Have you Read it??</label>
-            <input checkbox type="checkbox" id="myCheckbox" name="myCheckbox">
-           <!--- <input read type="text" name="read" placeholder="Read?">-->
-            <button type="submit" class="close" formmethod="dialog">Submit</button>
-        </form>
+      <form>
+        <input
+          title
+          type="text"
+          name="title"
+          placeholder="Title"
+          id="title"
+          required
+        />
+        <span class="error" aria-live="polite"></span>
+        <input author type="text" name="author" placeholder="Author" required />
+        <input
+          number
+          type="number"
+          name="pages"
+          placeholder="Number of pages"
+          required
+          min="1"
+          max="10000"
+        />
+        <label for="myCheckbox">Have you Read it??</label>
+        <input checkbox type="checkbox" id="myCheckbox" name="myCheckbox" />
+        <!--- <input read type="text" name="read" placeholder="Read?">-->
+        <button type="submit" class="close" formmethod="dialog">Submit</button>
+      </form>
     </dialog>
-</body>
+  </body>
 </html>
