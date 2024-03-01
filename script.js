@@ -1,4 +1,22 @@
-const myLibrary = [];
+function loadLibraryFromLocalStorage() {
+  const myLibrary = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const look = localStorage.key(i);
+    const looker = localStorage.getItem(look);
+    /*const book = JSON.parse(looker).map(
+      ({ title, author, number, checkbox }) =>
+        new Book(title, author, number, checkbox)
+    );*/
+    //console.log(JSON.parse(looker));
+    const book = JSON.parse(looker);
+    myLibrary.push(book);
+  }
+  return myLibrary;
+}
+
+//const myLibrary = [];
+const myLibrary = loadLibraryFromLocalStorage();
+display(myLibrary);
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -14,14 +32,6 @@ function Book(title, author, pages, read) {
 function addBookToLibrary(Book) {
   myLibrary.push(Book);
 }
-/*
-function deleteRow(index) {
-    let tableBody = document.getElementById("booksTable").getElementsByTagName('tbody')[0];
-
-    // Remove the row at the specified index
-    tableBody.deleteRow(index);
-}
-*/
 
 function display(myLibrary) {
   let tableBody = document
@@ -48,8 +58,8 @@ function display(myLibrary) {
       btn.setAttribute("data-index", index);
 
       const button = document.createElement("button");
-      // button.textContent = 'Read?';
-      //button.classList.add("grey");
+      button.setAttribute("trace", index);
+
       if (book.read) {
         button.classList.add("green");
         button.textContent = "YES";
@@ -62,25 +72,29 @@ function display(myLibrary) {
 
       button.onclick = function () {
         button.classList.remove("grey");
+        let traceIndex = parseInt(button.getAttribute("trace"));
         if (button.classList.contains("green")) {
           button.classList.remove("green");
           button.classList.add("red");
           button.textContent = "NO";
+          myLibrary[traceIndex].read = false;
+          sychronizeStorage();
         } else {
           button.classList.remove("red");
           button.classList.add("green");
           button.textContent = "YES";
+          myLibrary[traceIndex].read = true;
+          sychronizeStorage();
         }
       };
 
       cellTitle.textContent = book.title;
-      cellAuthor.textContent = book.author;
-      cellPages.textContent = book.pages;
-      //cellRead.textContent = book.read;
+      cellAuthor.textContent = book.author == "" ? "-" : book.author;
+      cellPages.textContent = book.pages == "" ? "-" : book.pages;
 
       btn.onclick = function () {
         let rowIndex = parseInt(btn.getAttribute("data-index"));
-        //myLibrary.splice(rowIndex, 1);
+        localStorage.removeItem(myLibrary[rowIndex].title);
         myLibrary[rowIndex] = 1;
         tableBody.deleteRow(rowIndex);
         tableBody.insertRow(rowIndex);
@@ -91,22 +105,10 @@ function display(myLibrary) {
   });
 }
 
-// some testing
-/*
-const book1 = new Book('POPO', 'Hamza', '28', 'not read');
-const book2 = new Book('Trees', 'KOKO', '288', 'read');
-const book3 = new Book('Night', 'Yassin', '2338', 'not read');
-
-addBookToLibrary(book1);
-addBookToLibrary(book2);
-addBookToLibrary(book3);
-
-display(myLibrary);
-*/
-
 const dialog = document.querySelector("[data-modal]");
 const openButton = document.querySelector(".open");
 const closeButton = document.querySelector(".close");
+const terminate = document.querySelector(".finish");
 
 const cleanInput = document.querySelectorAll(
   "[title], [author], [number], [checkbox]"
@@ -125,30 +127,83 @@ function addToLibrary(title, author, number, checkbox) {
     checkbox.checked
   );
   addBookToLibrary(book);
+  localStorage.setItem(title.value, JSON.stringify(book));
+  //console.log(title.value);
+  //console.log(localStorage.getItem(localStorage.key(0)));
   display(myLibrary);
+}
+
+function sychronizeStorage() {
+  localStorage.clear();
+  for (let i = 0; i < myLibrary.length; i++) {
+    localStorage.setItem(myLibrary[i].title, JSON.stringify(myLibrary[i]));
+  }
 }
 
 //addToLibrary(title, author, number, read);
 const TITLE = document.querySelector("#title");
+const NUMBER = document.querySelector("#number");
 const titleError = document.querySelector("#title + span.error");
+const numberError = document.querySelector("#number + span.err");
+
+TITLE.addEventListener("input", (e) => {
+  if (TITLE.validity.valid) {
+    titleError.textContent = "";
+    titleError.className = "error";
+  } else {
+    titleError.textContent = "Title is required";
+    titleError.className = "error active";
+  }
+});
+
+NUMBER.addEventListener("input", () => {
+  if (NUMBER.validity.valid) {
+    numberError.textContent = "";
+    numberError.className = "error";
+  } else {
+    numberError.textContent = "10000 pages at most";
+    numberError.className = "error active";
+  }
+});
 
 openButton.addEventListener("click", () => {
-  dialog.showModal();
-  TITLE.addEventListener("input", (e) => {
-    if (TITLE.validity.valid) {
-      titleError.textContent = "";
-      titleError.className = "error";
-    } else {
-      titleError.textContent = "Title is required";
-      titleError.className = "error active";
-    }
-  });
+  dialog.show();
 });
 
 closeButton.addEventListener("click", (e) => {
   e.preventDefault();
 
+  if (TITLE.validity.valid) {
+    titleError.textContent = "";
+    titleError.className = "error";
+  } else {
+    titleError.textContent = "Title is required";
+    titleError.className = "error active";
+    return;
+  }
+
+  if (NUMBER.validity.valid) {
+    numberError.textContent = "";
+    numberError.className = "error";
+  } else {
+    numberError.textContent = "10000 pages at most";
+    numberError.className = "error active";
+    return;
+  }
+
   addToLibrary(title, author, number, checkbox);
+
+  cleanInput.forEach((input) => {
+    input.value = "";
+  });
+
+  checkbox.checked = false;
+
+  dialog.close();
+});
+
+terminate.addEventListener("click", (e) => {
+  e.preventDefault();
 
   cleanInput.forEach((input) => {
     input.value = "";

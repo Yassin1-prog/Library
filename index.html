@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
     <script defer src="./script.js"></script>
     <meta charset="UTF-8" />
@@ -8,8 +21,7 @@
     <title>Library</title>
   </head>
   <body>
-    <h1>Library</h1>
-
+    <h1><i class="fa-solid fa-book"></i>Library</h1>
     <table id="booksTable">
       <thead>
         <tr>
@@ -26,30 +38,49 @@
     </table>
     <button class="open">ADD A NEW BOOK</button>
     <dialog data-modal>
-      <form>
-        <input
-          title
-          type="text"
-          name="title"
-          placeholder="Title"
-          id="title"
-          required
-        />
-        <span class="error" aria-live="polite"></span>
-        <input author type="text" name="author" placeholder="Author" required />
-        <input
-          number
-          type="number"
-          name="pages"
-          placeholder="Number of pages"
-          required
-          min="1"
-          max="10000"
-        />
-        <label for="myCheckbox">Have you Read it??</label>
-        <input checkbox type="checkbox" id="myCheckbox" name="myCheckbox" />
-        <!--- <input read type="text" name="read" placeholder="Read?">-->
-        <button type="submit" class="close" formmethod="dialog">Submit</button>
+      <form novalidate>
+        <a href="#" class="finish"><i class="fa-solid fa-x"></i></a>
+        <div>
+          <input
+            title
+            type="text"
+            name="title"
+            placeholder="Title"
+            id="title"
+            maxlength="30"
+            required
+          />
+          <span class="error" aria-live="polite"></span>
+        </div>
+        <div>
+          <input
+            author
+            type="text"
+            name="author"
+            placeholder="Author"
+            maxlength="20"
+          />
+        </div>
+        <div>
+          <input
+            number
+            type="number"
+            name="pages"
+            id="number"
+            placeholder="Number of pages"
+            max="10000"
+          />
+          <span class="err" aria-live="polite"></span>
+        </div>
+        <div>
+          <label for="myCheckbox">Have you Read it??</label>
+          <input checkbox type="checkbox" id="myCheckbox" name="myCheckbox" />
+        </div>
+        <div>
+          <button type="submit" class="close" formmethod="dialog">
+            Submit
+          </button>
+        </div>
       </form>
     </dialog>
   </body>
